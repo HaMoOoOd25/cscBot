@@ -3,6 +3,7 @@ const messagesSchema = require("../utils/Schemas/messagesSchema");
 const modMail = require("../utils/modMail");
 const petSchema = require("../utils/Schemas/PetSchema");
 const coinsSchema = require("../utils/Schemas/coinsSchema");
+const Discord = require("discord.js");
 
 const messagesCoolDownSet = new Set();
 const petXpCoolDownSet= new Set();
@@ -59,7 +60,7 @@ module.exports = (bot, message) => {
             }else{
                 res.points += 1;
 
-                if (res.points === 500) {
+                if (res.points > 499 && res.points % 5 === 0) {
                     const toEarn = 1000;
                     coinsSchema.findOne({
                         guildID: message.guild.id,
