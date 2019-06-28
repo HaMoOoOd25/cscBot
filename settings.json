@@ -1,0 +1,9 @@
+{
+  "mongoDb" : "mongodb+srv://admin:31045@chatshitandchill-selso.mongodb.net/test?retryWrites=true&w=majority",
+  "embedColor" : "#7f3c9d",
+  "reportChannel" : "583718071156473876",
+  "mainChatChannel" : "583720527026192396",
+  "botCommandsChannel" : "586894247572013076",
+  "modMailChannel" : "586894247572013076",
+  "guildID" : "403564806071648258"
+}

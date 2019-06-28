@@ -1,0 +1,29 @@
+{
+  "name": "cscbot",
+  "version": "3.0.0",
+  "description": "Discord bot for ChatShit&chill server.",
+  "main": "cscbot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "HaMoOoOd25#7712",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^11.5.0",
+    "enmap": "^4.8.7",
+    "mongoose": "^5.5.11",
+    "ms": "^2.1.1",
+    "parse-ms": "^2.1.0",
+    "quick.db": "^7.0.0-b22",
+    "superagent": "^5.0.5"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HaMoOoOd25/cscBot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/HaMoOoOd25/cscBot/issues"
+  },
+  "homepage": "https://github.com/HaMoOoOd25/cscBot#readme"
+}

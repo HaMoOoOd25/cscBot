@@ -1,0 +1,16 @@
+{
+  "commonPetPrice" : 50000,
+  "rarePetPrice" : 150000,
+  "legendaryPetPrice": 300000,
+
+  "common" : [
+    "Pitbull","Bulldog","GermanShepard","Husky","Dalmatian","Dolphin","Hippopotamus","Raven","Eagle",
+    "PolarBear","SquirrelMonkey","BengalCat","FennecFox","HyacinthMacaw","SugarGlider","StrippedSkunk",
+    "Wallaby","Hedgehog","Chinchilla","Butterflies","Otter","Seal","GrizzlyBear","GiantPandaBear","Zebra"
+  ],
+  "rare" : ["Tigar","Giraffe","Jaguar","Gorilla","Elephant","Rhino","Flamingo","Shark","KillerWhale","Mermaid"
+  ,"Fairy","Zombie","Werewolf","Vampire","Velociraptor"],
+  "legendary" : [
+    "T-Rex","Ghost","Dragon","Unicorn","Phoenix","Alien","Pegasus","Cyclops","Cerberus","Elf"
+  ]
+}
