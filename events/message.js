@@ -36,7 +36,7 @@ module.exports = (bot, message) => {
 
     //Message points (Every 1 minutes)
     if (!message.content.startsWith(bot.config.prefix)){
-        //if (messagesCoolDownSet.has(message.author.id)) return;
+        if (messagesCoolDownSet.has(message.author.id)) return;
 
         messagesSchema.findOne({
             guildID: message.guild.id,
