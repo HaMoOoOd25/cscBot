@@ -88,7 +88,11 @@ module.exports = (bot, message) => {
                             });
                         }
 
-                        message.channel.send(`${message.author}, you got 500 message points! Here is 1000 coins for you qt! Keep up the activity <3`);
+                        const embed = new Discord.RichEmbed()
+                            .setAuthor(message.author.tag, message.author.avatarURL)
+                            .setColor(bot.settings.embedColor)
+                            .setDescription(`${message.author} just earned 1000 coins for gaining 500 points.`);
+                        message.channel.send(embed);
                     })
                 }
                 res.save().catch(err => {

@@ -6,8 +6,10 @@ yarn-debug.log*
 yarn-error.log*
 
 
-#botconfig
+#My ignorance <3
 botconfig.json
+json.sqlite
+.idea/
 
 # Runtime data
 pids
