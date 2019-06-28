@@ -36,7 +36,7 @@ module.exports = (bot, message) => {
 
     //Message points (Every 1 minutes)
     if (!message.content.startsWith(bot.config.prefix)){
-        if (messagesCoolDownSet.has(message.author.id)) return;
+        //if (messagesCoolDownSet.has(message.author.id)) return;
 
         messagesSchema.findOne({
             guildID: message.guild.id,
@@ -60,7 +60,7 @@ module.exports = (bot, message) => {
             }else{
                 res.points += 1;
 
-                if (res.points > 499 && res.points % 5 === 0) {
+                if (res.points > 499 && res.points % 500 === 0) {
                     const toEarn = 1000;
                     coinsSchema.findOne({
                         guildID: message.guild.id,
