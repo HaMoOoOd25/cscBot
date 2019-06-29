@@ -1,5 +1,3 @@
-const Discord = require("discord.js");
-const errors = require("../../utils/errors");
 module.exports.run = (bot, message, args, messageArray) => {
 
     if(args[0] > 100) return message.reply(" numbers of messages must be less than 100").then(msg => msg.delete(3000));
