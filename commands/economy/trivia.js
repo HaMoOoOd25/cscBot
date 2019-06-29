@@ -4,6 +4,7 @@ const db = require("quick.db");
 const errors = require("../../utils/errors");
 const ms = require("parse-ms");
 const superagent = require("superagent");
+const decoder = require("unescape");
 
 module.exports.run = async (bot, message, args, messageArray) => {
 
@@ -21,7 +22,7 @@ module.exports.run = async (bot, message, args, messageArray) => {
             .setDescription(`You have to wait **${timeObj.hours}h ${timeObj.minutes}m ${timeObj.seconds}s** before playing trivia again`);
         return message.channel.send(coolDownEmbed);
     }
-    db.set(`lastTrivia_${message.author.id}`, Date.now());
+    //db.set(`lastTrivia_${message.author.id}`, Date.now());
 
     //Define the variables for the question details
     let question;
@@ -33,9 +34,7 @@ module.exports.run = async (bot, message, args, messageArray) => {
     let answerChoices;
 
     //The earning range 250-1000
-    const min = Math.ceil(250);
-    const max = Math.floor(1000 + 1);
-    const toEarn = Math.floor(Math.random() * (max - min) + min);
+
 
     //Get the question from the API
     let {body} = await superagent
@@ -43,7 +42,8 @@ module.exports.run = async (bot, message, args, messageArray) => {
     //Map the results
     body.results.map(loadedQuestion => {
         //Assign the question details to variables
-        question = unescape(loadedQuestion.question);
+        console.log(loadedQuestion);
+        question = decoder(loadedQuestion.question);
         category = loadedQuestion.category;
         type = loadedQuestion.type;
         difficulty = loadedQuestion.difficulty;
@@ -65,8 +65,7 @@ module.exports.run = async (bot, message, args, messageArray) => {
     let correctLetter;
 
     for (let i = 0; i < answerChoices.length; i++) {
-        answerChoices[i]
-        choicesPreview.push(`**${letters[i]}.** ${answerChoices[i]}`);
+        choicesPreview.push(`**${letters[i]}.** ${decoder(answerChoices[i])}`);
         if (answerChoices[i] === correctAnswer){
             correctLetter = letters[i];
         }
@@ -78,7 +77,7 @@ module.exports.run = async (bot, message, args, messageArray) => {
         .setColor(bot.settings.embedColor)
         .addField("Category", category, true)
         .addField("Type", type, true)
-        .addField("Difficulty/Prize", `${difficulty}/${toEarn} coins`, true)
+        .addField("Difficulty/Prize", `${difficulty}`, true)
         .addField("Question", question)
         .addField("Choices", choicesPreview)
         .setFooter("Type the letter of the choice to answer the question. | You have 60 seconds to answer.",
@@ -106,12 +105,6 @@ module.exports.run = async (bot, message, args, messageArray) => {
            message.channel.send(lostEmbed);
 
        }else if (answerMessage.content.toUpperCase() === correctLetter){ //If correct answer
-           //Preparing the embed
-           const wonEmbed = new Discord.RichEmbed()
-               .setAuthor(message.author.tag, message.author.avatarURL)
-               .setColor(bot.settings.embedColor)
-               .setDescription(`✅ Correct! You have earned the ${toEarn} coins`);
-
            coinsSchema.findOne({
                guildID: message.guild.id,
                userID: message.author.id
@@ -120,6 +113,27 @@ module.exports.run = async (bot, message, args, messageArray) => {
                    console.log(err);
                    errors.databaseError(message);
                }
+
+               //Prize ranging according to difficulty
+               let min;
+               let max;
+               if (difficulty === "easy"){
+                   min = Math.ceil(100);
+                   max = Math.floor(300 + 1);
+               }else if (difficulty === "medium"){
+                   min = Math.ceil(300);
+                   max = Math.floor(600 + 1);
+               }else {
+                   min = Math.ceil(600);
+                   max = Math.floor(1000 + 1);
+               }
+               const toEarn = Math.floor(Math.random() * (max - min) + min);
+
+               //Preparing the embed
+               const wonEmbed = new Discord.RichEmbed()
+                   .setAuthor(message.author.tag, message.author.avatarURL)
+                   .setColor(bot.settings.embedColor)
+                   .setDescription(`✅ Correct! You have earned the ${toEarn} coins`);
 
                if (!res) {
                    const newData = new coinsSchema({
@@ -145,7 +159,7 @@ module.exports.run = async (bot, message, args, messageArray) => {
            const lostEmbed = new Discord.RichEmbed()
                .setAuthor(message.author.tag, message.author.avatarURL)
                .setColor(bot.settings.embedColor)
-               .setDescription(`❌ Incorrect!`);
+               .setDescription(`❌ Incorrect! The correct answer is **${decoder(correctAnswer)}(${correctLetter})**`);
            message.channel.send(lostEmbed);
        }
     });

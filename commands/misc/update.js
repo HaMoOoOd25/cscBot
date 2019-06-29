@@ -9,7 +9,7 @@ module.exports.run = async (bot, message, args, messageArray) => {
 
     await message.delete();
 
-    const changeLogText = fs.readFileSync('./changelog.txt').toString('utf-8');
+    const changeLogText = fs.readFileSync(require('path').resolve(__dirname, '../../changelog.txt')).toString('utf-8');
     const changelogEmbed = new Discord.RichEmbed()
         .setAuthor(message.author.username, message.author.avatarURL)
         .setColor(bot.settings.embedColor)
