@@ -22,7 +22,7 @@ module.exports.run = async (bot, message, args, messageArray) => {
             .setDescription(`You have to wait **${timeObj.hours}h ${timeObj.minutes}m ${timeObj.seconds}s** before playing trivia again`);
         return message.channel.send(coolDownEmbed);
     }
-    //db.set(`lastTrivia_${message.author.id}`, Date.now());
+    db.set(`lastTrivia_${message.author.id}`, Date.now());
 
     //Define the variables for the question details
     let question;

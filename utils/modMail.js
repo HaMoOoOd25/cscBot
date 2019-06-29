@@ -1,14 +1,9 @@
 const Discord = require("discord.js");
-const mongoDb = require("mongoose");
 const settings = require("../settings.json");
 const db = require("quick.db");
 const errors = require("./errors");
 
 module.exports.messageReceived = async (message, bot) => {
-
-    mongoDb.connect(settings.mongoDb, {
-        useNewUrlParser: true
-    });
 
     let guild = bot.guilds.get(settings.guildID);
     let modMailChannel = guild.channels.find(channel => channel.id === bot.settings.modMailChannel);
