@@ -1,6 +1,2 @@
-- Added changelog/update command.
-- Trivia will now show correct answer if you answered incorrectly.
-- Trivia prize ranging is now according to the difficulty.
-- Removed Trivia questions/answers are now decoded (Weird codes appear in questions/Answers such as ``&quot``)
-- Fixed database bugs
+- New welcome message feature
 
