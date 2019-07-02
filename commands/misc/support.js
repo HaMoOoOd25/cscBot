@@ -9,7 +9,7 @@ module.exports.run = async (bot, message, args, messageArray) => {
     const supportEmbed = new Discord.RichEmbed()
         .setAuthor(message.author.username, message.author.avatarURL)
         .setColor(bot.settings.embedColor)
-        .addField('Support', "You can always help keeping the bot going but donating to my Patreon [here](https://www.patreon.com/HaMoOoOd25).")
+        .addField('Support', "You can always help keeping the bot going but donating to my Patreon [here](https://www.patreon.com/HaMoOoOd25) or https://www.patreon.com/HaMoOoOd25.")
         .setFooter(bot.user.username, bot.user.avatarURL)
         .setTimestamp(message.createdAt);
     message.channel.send(supportEmbed);

@@ -15,7 +15,7 @@ module.exports.run = async (bot, message, args, messageArray) => {
         .setColor(bot.settings.embedColor)
         .addField(`${bot.user.username} Update!`, "We've got some new features for you!")
         .addField('Overview', changeLogText)
-        .addField('Support the bot', "You can always help keeping the bot going but donating to my Patreon [here](https://www.patreon.com/HaMoOoOd25).")
+        .addField('Support the bot', "You can always help keeping the bot going but donating to my Patreon [here](https://www.patreon.com/HaMoOoOd25) or https://www.patreon.com/HaMoOoOd25.")
         .setFooter(bot.user.username, bot.user.avatarURL)
         .setTimestamp(message.createdAt);
     message.channel.send(changelogEmbed)

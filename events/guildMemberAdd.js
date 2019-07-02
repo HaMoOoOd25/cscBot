@@ -8,7 +8,7 @@ module.exports = (bot, member) => {
         .setAuthor(member.user.tag, member.user.avatarURL)
         .setColor(bot.settings.embedColor)
         .setThumbnail(member.guild.iconURL)
-        .setDescription(`Welcome ${member} to ${member.guild.name}! Feel free to speak in <#530788544558661632> or ${welcomeChannel}.\n\n` +
-        `You are the **${member.guild.members.filter(m => !m.user.bot).size}**th member`);
+        .setDescription(`Welcome ${member} to ${member.guild.name}! Feel free to speak in ${welcomeChannel} or <#530788544558661632>.\n\n` +
+        `You are the **${member.guild.memberCount}**th member`);
     welcomeChannel.send(welcomeEmbed);
 };
