@@ -3,7 +3,7 @@ const Discord = require("discord.js");
 module.exports = (bot, member) => {
 
     //Get channel
-    const welcomeChannel = member.guild.channels.get(bot.settings.mainChatChannel);
+    const welcomeChannel = member.guild.channels.get(bot.settings.welcomeChannel);
     const welcomeEmbed = new Discord.RichEmbed()
         .setAuthor(member.user.tag, member.user.avatarURL)
         .setColor(bot.settings.embedColor)
