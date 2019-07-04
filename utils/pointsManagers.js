@@ -7,25 +7,15 @@ const errors = require("./errors");
 const petSchema = require("./Schemas/PetSchema");
 const coinsSchema = require("./Schemas/coinsSchema");
 const messagesSchema = require("./Schemas/messagesSchema");
+const housesPoitnsSchema = require("./Schemas/housesPointsSchema");
 
 const messagesCoolDownSet = new Set();
 const petXpCoolDownSet= new Set();
+const housesCoolSownSet = new Set();
 //-------------------------------
 
 module.exports.messagePoints = (bot, message) => {
     if (messagesCoolDownSet.has(message.author.id)) return;
-
-    const housesJson = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../configs/houses.json")).toString());
-    const houses = housesJson.houses;
-
-    let memberHouse = "none";
-
-    for (let i = 0; i < houses.length; i++){
-        const HouseRole = message.member.roles.find(r => r.name === houses[i].role);
-        if (HouseRole) {
-            memberHouse = houses[i].name;
-        }
-    }
 
     messagesSchema.findOne({
         guildID: message.guild.id,
@@ -40,8 +30,7 @@ module.exports.messagePoints = (bot, message) => {
             const newData = new messagesSchema({
                 guildID: message.guild.id,
                 userID: message.author.id,
-                points: 1,
-                house: memberHouse
+                points: 1
             });
             newData.save().catch(err => {
                 errors.databaseError(message);
@@ -49,7 +38,6 @@ module.exports.messagePoints = (bot, message) => {
             });
         }else{
             res.points += 1;
-            res.house = memberHouse;
 
             if (res.points > 499 && res.points % 500 === 0) {
                 const toEarn = 1000;
@@ -147,5 +135,48 @@ module.exports.petPoints = (bot, message) => {
 
     setTimeout(function () {
         petXpCoolDownSet.delete(message.author.id);
+    }, 60000);
+};
+
+module.exports.housesPoints = (bot, message) => {
+    if (housesCoolSownSet.has(message.author.id)) return;
+
+    const housesJson = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../configs/houses.json")).toString());
+    const houses = housesJson.houses;
+
+    let House = "None";
+    for (let i = 0; i < houses.length; i++){
+        const HouseRole = message.member.roles.find(r => r.name === houses[i].role);
+        if (HouseRole) {
+            House = houses[i].name;
+        }
+    }
+
+    if (House === "None") return;
+
+    housesPoitnsSchema.findOne({
+        guildID: message.guild.id,
+        house: House,
+    }, (err, res) => {
+        if (err) {
+            console.log(err);
+            errors.databaseError(message);
+        }
+        if (!res){
+            const newData = new housesPoitnsSchema({
+                guildID: message.guild.id,
+                house: House,
+                points: 1
+            });
+            newData.save().catch(err => console.log(err));
+        }else{
+            res.points += 1;
+            res.save().catch(err => console.log(err));
+        }
+    });
+    housesCoolSownSet.add(message.author.id);
+
+    setTimeout(function () {
+        housesCoolSownSet.delete(message.author.id);
     }, 60000);
 };

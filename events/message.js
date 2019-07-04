@@ -33,5 +33,6 @@ module.exports = (bot, message) => {
     if (!message.content.startsWith(bot.config.prefix)){
         pointsManager.messagePoints(bot, message);
         pointsManager.petPoints(bot, message);
+        pointsManager.housesPoints(bot, message);
     }
 };
