@@ -1,2 +1,30 @@
-- New welcome message feature
+**__Houses System__**
+
+I want to introduce you to a new houses system. The server now has 5 houses which are:
+- :dark_sunglasses: House of darkness
+- :skull_crossbones: House of toxicity
+- :fist: House of alpha
+- :scorpion:House of scorpions
+- :crossed_swords: House of gladiators
+
+You will be able to collect points for your house by being active. The house will get 1 points per minute **for each member**.
+The points of the houses will reset along side the members messages points every week at Monday.
+
+
+**__New commands of the houses__**
+
+.house (View and select the houses)
+.tophouses (View the leaderboard of top houses with most points)
+
+**__Other Changes__**
+
+- Changed donate command alias from *give* to *tranfer*
+- New give coins commands for Admins and Developer
+- Fixed bugs
+- Changed few system utils
+- Removed busted unnecessary code and logic
+
+
+
+
 

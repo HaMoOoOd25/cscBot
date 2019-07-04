@@ -3,31 +3,31 @@
     {
       "name" : "Darkness",
       "role" : "House of Darkness",
-      "description" : "This is the dark house.",
+      "description" : "Night-owls, yes.",
       "emoji": "\uD83D\uDD76"
     },
     {
       "name": "toxicity",
       "role" : "House of Toxicity",
-      "description" : "This is the toxic house",
+      "description" : "Don’t @ us.",
       "emoji" : "☠"
     },
     {
       "name": "Alpha",
       "role": "House of Alpha",
-      "description" : "This is the alpha house",
+      "description" : "We’ll steal your girl. ",
       "emoji": "✊"
     },
     {
       "name" : "Scorpions",
       "role" : "House of Scorpions",
-      "description" : "This is the scorpions house",
+      "description" : "You’re just a means to an end.",
       "emoji" : "\uD83E\uDD82"
     },
     {
       "name": "Gladiators",
       "role" : "House of Gladiators",
-      "description" : "This is the gladiators house",
+      "description" : "Gryffindor but Sparta.",
       "emoji" : "⚔"
     }
   ]
