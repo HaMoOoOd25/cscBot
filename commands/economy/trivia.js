@@ -42,7 +42,6 @@ module.exports.run = async (bot, message, args, messageArray) => {
     //Map the results
     body.results.map(loadedQuestion => {
         //Assign the question details to variables
-        console.log(loadedQuestion);
         question = decoder(loadedQuestion.question);
         category = loadedQuestion.category;
         type = loadedQuestion.type;

@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
 const petSchema = require("../../utils/Schemas/PetSchema");
 const errors = require("../../utils/errors");
-const pets = require("../../pets");
+const pets = require("../../configs/pets");
 const coinSchema = require("../../utils/Schemas/coinsSchema");
 
 module.exports.run = (bot, message, args, messageArray) => {

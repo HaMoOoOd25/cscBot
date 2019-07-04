@@ -1,6 +1,5 @@
 const Discord = require("discord.js");
-const errors = require("../../utils/errors");
-const pets = require("../../pets");
+const pets = require("../../configs/pets");
 
 module.exports.run = (bot, message, args, messageArray) => {
     if (message.channel.id !== bot.settings.botCommandsChannel) return;

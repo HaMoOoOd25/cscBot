@@ -1,0 +1,34 @@
+{
+  "houses" : [
+    {
+      "name" : "darkness",
+      "role" : "House of Darkness",
+      "description" : "This is the dark house.",
+      "emoji": "\uD83D\uDD76"
+    },
+    {
+      "name": "toxicity",
+      "role" : "House of Toxicity",
+      "description" : "This is the toxic house",
+      "emoji" : "☠"
+    },
+    {
+      "name": "alpha",
+      "role": "House of Alpha",
+      "description" : "This is the alpha house",
+      "emoji": "✊"
+    },
+    {
+      "name" : "scorpion",
+      "role" : "House of Scorpions",
+      "description" : "This is the scorpions house",
+      "emoji" : "\uD83E\uDD82"
+    },
+    {
+      "name": "gladiators",
+      "role" : "House of Gladiators",
+      "description" : "This is the gladiators house",
+      "emoji" : "⚔"
+    }
+  ]
+}

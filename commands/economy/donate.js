@@ -92,7 +92,7 @@ module.exports.config = {
     name: "donate",
     usage: "give amount @someone",
     description: "Donate coins to a member in the server.",
-    aliases: ["give"],
+    aliases: ["transfer"],
     permission: [],
     enabled: true
 };

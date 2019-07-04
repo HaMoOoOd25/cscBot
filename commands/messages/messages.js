@@ -28,7 +28,7 @@ module.exports.run = (bot, message, args, messageArray) => {
                 .setDescription(`${member} has ${res.points} points`);
             message.channel.send(resultsEmbed);
         }
-    })
+    });
 };
 
 module.exports.config = {

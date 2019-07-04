@@ -27,7 +27,7 @@ fs.readdir("./events/", (err, files) => {
 });
 
 //command handler
-const commands = ["economy", "messages", "misc", "moderation", "pets"];
+const commands = ["economy", "messages", "misc", "moderation", "pets", "houses"];
 for (let i = 0; i < commands.length; i++){
     fs.readdir(`./commands/${commands[i]}/`, (err, files) => {
         if (err) return console.error(err);
