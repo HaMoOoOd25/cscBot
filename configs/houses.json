@@ -1,7 +1,7 @@
 {
   "houses" : [
     {
-      "name" : "darkness",
+      "name" : "Darkness",
       "role" : "House of Darkness",
       "description" : "This is the dark house.",
       "emoji": "\uD83D\uDD76"
@@ -13,19 +13,19 @@
       "emoji" : "☠"
     },
     {
-      "name": "alpha",
+      "name": "Alpha",
       "role": "House of Alpha",
       "description" : "This is the alpha house",
       "emoji": "✊"
     },
     {
-      "name" : "scorpion",
+      "name" : "Scorpions",
       "role" : "House of Scorpions",
       "description" : "This is the scorpions house",
       "emoji" : "\uD83E\uDD82"
     },
     {
-      "name": "gladiators",
+      "name": "Gladiators",
       "role" : "House of Gladiators",
       "description" : "This is the gladiators house",
       "emoji" : "⚔"

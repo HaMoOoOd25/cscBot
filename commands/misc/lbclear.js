@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const messagesSchema = require("../../utils/Schemas/messagesSchema");
+const housepointsSchema = require("../../utils/Schemas/housesPointsSchema");
 const errors = require("../../utils/errors");
 const robCoolDown = new Set();
 
@@ -52,11 +53,15 @@ module.exports.run = (bot, message, args, messageArray) => {
             }
 
         }
-
-
     });
 
 
+    housepointsSchema.deleteMany({}, (err, res) => {
+        if (err) {
+            console.log(err);
+            errors.databaseError(message);
+        }
+    });
 };
 
 module.exports.config = {
