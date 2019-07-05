@@ -1,7 +1,9 @@
+- New Bunny pet
 - Some tweaks on messages and balances leaderboard
 - Changed some bot texts and scripts. Thanks to <@537559063647748096> for realizing them.
 - Added `house` alias to `houses` command
 - Removed forgotten testing and logging lines
+
 
 
 
