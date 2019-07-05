@@ -21,13 +21,13 @@ module.exports.run = (bot, message, args, messageArray) => {
             const noMessagesEmbed = new Discord.RichEmbed()
                 .setAuthor(message.author.username, message.author.avatarURL)
                 .setColor(bot.settings.embedColor)
-                .setDescription(`${member} has 0 coins in his bank`);
+                .setDescription(`${member} has 0 coins in their bank`);
             message.channel.send(noMessagesEmbed);
         }else{
             const resultsEmbed = new Discord.RichEmbed()
                 .setAuthor(message.author.username, message.author.avatarURL)
                 .setColor(bot.settings.embedColor)
-                .setDescription(`${member} has ${res.coins} coins in his bank.`);
+                .setDescription(`${member} has ${res.coins} coins in their bank.`);
             message.channel.send(resultsEmbed);
         }
     })

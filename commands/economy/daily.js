@@ -54,7 +54,7 @@ module.exports.run = async (bot, message, args, messageArray) => {
         const EarnedEmbed = new Discord.RichEmbed()
             .setAuthor(message.author.username, message.author.avatarURL)
             .setDescription(`${message.author}, you have claimed your daily reward.\nYou have earned **${toEarn}** coins!`)
-            .setColor(bot.settings.embedColor)
+            .setColor(bot.settings.embedColor);
         message.channel.send(EarnedEmbed);
     })
 };

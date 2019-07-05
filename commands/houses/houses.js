@@ -40,10 +40,9 @@ module.exports.run = async (bot, message, args, messageArray) => {
     //send message and start reaction collector
     message.channel.send(houseslistEmbed).then(async msg => {
         for (let i = 0; i < houses.length; i++){
-            await msg.react(houses[i].emoji)
+            await msg.react(houses[i].emoji);
         }
 
-        console.log("1");
         // Create a reaction collector
         const filter = (reaction, user) => user.id === message.author.id;
         const collector = msg.createReactionCollector(filter, {
@@ -68,8 +67,7 @@ module.exports.config = {
     name: "houses",
     usage: "houses",
     description: "View and select the house you want to join.",
-    aliases: [],
-    noalais: "No alias",
+    aliases: ["house"],
     permission: [],
     enabled: true
 };

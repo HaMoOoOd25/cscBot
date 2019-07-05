@@ -4,6 +4,7 @@ const errors = require("../../utils/errors");
 
 module.exports.run = (bot, message, args, messageArray) => {
 
+    const emojis = ['🥇', '🥈', '🥉', '🔹', '🔹', '🔹', '🔸', '🔸', '🔸', '🔸'];
     bankSchema.find({
     }).sort([
         ['coins', 'descending']
@@ -23,9 +24,9 @@ module.exports.run = (bot, message, args, messageArray) => {
             for(i = 0; i < res.length; i++){
                 let member = message.guild.members.get(res[i].userID) || 'User Left';
                 if (member === "User Left"){
-                    leaderboard.push(`${i + 1}. **${member} | Balance:** ${res[i].coins} coins\n`);
+                    leaderboard.push(`\\${emojis[i]} **${member} | Balance:** ${res[i].coins} coins\n`);
                 }else{
-                    leaderboard.push(`${i + 1}. **${member.user.username} | Balance:** ${res[i].coins} coins\n`);
+                    leaderboard.push(`\\${emojis[i]} **${member.user.username} | Balance:** ${res[i].coins} coins\n`);
                 }
             }
             leaderboardEmbed.setColor(bot.settings.embedColor);
@@ -36,9 +37,9 @@ module.exports.run = (bot, message, args, messageArray) => {
             for(i = 0; i < 10; i++){
                 let member = message.guild.members.get(res[i].userID) || 'User Left';
                 if (member === "User Left"){
-                    leaderboard.push(`${i + 1}. **${member} | Balance:** ${res[i].coins} coins\n`);
+                    leaderboard.push(`\\${emojis[i]} **${member} | Balance:** ${res[i].coins} coins\n`);
                 }else{
-                    leaderboard.push(`${i + 1}. **${member.user.username} | Balance:** ${res[i].coins} coins\n`);
+                    leaderboard.push(`\\${emojis[i]} **${member.user.username} | Balance:** ${res[i].coins} coins\n`);
                 }
             }
             leaderboardEmbed.setDescription(leaderboard);
