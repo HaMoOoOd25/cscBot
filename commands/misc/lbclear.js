@@ -1,8 +1,11 @@
 const Discord = require("discord.js");
+
 const messagesSchema = require("../../utils/Schemas/messagesSchema");
 const housepointsSchema = require("../../utils/Schemas/housesPointsSchema");
+
 const errors = require("../../utils/errors");
-const robCoolDown = new Set();
+
+//------
 
 module.exports.run = (bot, message, args, messageArray) => {
 
@@ -67,7 +70,7 @@ module.exports.run = (bot, message, args, messageArray) => {
 module.exports.config = {
     name: "lbclear",
     usage: "lbclear",
-    description: "Clear the messages leaderboard.",
+    description: "Clear the messages and houses leaderboard.",
     aliases: ["lbreset"],
     permission: ["ADMINISTRATOR"],
     enabled: true

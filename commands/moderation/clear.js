@@ -1,9 +1,4 @@
 module.exports.run = (bot, message, args, messageArray) => {
-
-    if(args[0] > 100) return message.reply(" numbers of messages must be less than 100").then(msg => msg.delete(3000));
-
-    let counter = 0;
-
     message.channel.fetchMessages({
         limit: 100
     }).then(msgs => {

@@ -25,9 +25,9 @@ module.exports.run = (bot, message, args, messageArray) => {
             for(i = 0; i < res.length; i++){
                 let member = message.guild.members.get(res[i].userID) || 'User Left';
                 if (member === "User Left"){
-                    leaderboard.push(`\\${emojis[i]} **${member} | Message Points:** ${res[i].points}\n`);
+                    leaderboard.push(`${emojis[i]} **${member} | Message Points:** ${res[i].points}\n`);
                 }else{
-                    leaderboard.push(`\\${emojis[i]} **${member.user.username} | Message Points:** ${res[i].points}\n`);
+                    leaderboard.push(`${emojis[i]} **${member.user.username} | Message Points:** ${res[i].points}\n`);
                 }
             }
             leaderboardEmbed.setColor(bot.settings.embedColor);
@@ -38,9 +38,9 @@ module.exports.run = (bot, message, args, messageArray) => {
             for(i = 0; i < 10; i++){
                 let member = message.guild.members.get(res[i].userID) || 'User Left';
                 if (member === "User Left"){
-                    leaderboard.push(`\\${emojis[i]} **${member} | Message Points:** ${res[i].points}\n`);
+                    leaderboard.push(`${emojis[i]} **${member} | Message Points:** ${res[i].points}\n`);
                 }else{
-                    leaderboard.push(`\\${emojis[i]} **${member.user.username} | Message Points:** ${res[i].points}\n`);
+                    leaderboard.push(`${emojis[i]} **${member.user.username} | Message Points:** ${res[i].points}\n`);
                 }
             }
             leaderboardEmbed.setDescription(leaderboard);
