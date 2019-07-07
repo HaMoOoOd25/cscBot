@@ -1,1 +1,1 @@
-- Reworked leaderboard tweaks.
+- Each member of the winner house will earn 5k (It's still on Beta and not sure if it will work efficiently)
