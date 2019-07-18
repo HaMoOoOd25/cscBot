@@ -12,7 +12,7 @@ module.exports.run = (bot, message, args, messageArray) => {
     }, (err, res) => {
         if (err) {
             errors.databaseError(message);
-            console.log(err);
+            return console.log(err);
         }
 
         if (!res || res.points === 0){

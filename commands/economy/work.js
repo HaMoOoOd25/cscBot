@@ -44,7 +44,7 @@ module.exports.run = async (bot, message, args, messageArray) => {
     }, (err, res) => {
         if (err) {
             console.log(err);
-            errors.databaseError(message);
+            return errors.databaseError(message);
         }
 
         if (!res) {

@@ -23,7 +23,7 @@ module.exports.messagePoints = (bot, message) => {
     }, (err, res) => {
         if (err) {
             errors.databaseError(message);
-            console.log(err);
+            return console.log(err);
         }
 
         if (!res){
@@ -47,7 +47,7 @@ module.exports.messagePoints = (bot, message) => {
                 }, (err, res) => {
                     if (err) {
                         console.log(err);
-                        errors.databaseError(message);
+                        return errors.databaseError(message);
                     }
 
                     if (!res){
@@ -105,7 +105,7 @@ module.exports.petPoints = (bot, message) => {
     }, (err, res) => {
         if (err) {
             console.log(err);
-            errors.databaseError(message);
+            return errors.databaseError(message);
         }
 
         if(res){

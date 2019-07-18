@@ -12,7 +12,7 @@ module.exports.run = (bot, message, args, messageArray) => {
     ]).exec((err, res) => {
         if (err) {
             errors.databaseError(message);
-            console.log(err);
+            return console.log(err);
         }
         let leaderboardEmbed = new Discord.RichEmbed()
             .setTitle("Messages Leaderboard");

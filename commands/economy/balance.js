@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const coinsSchema = require("../../utils/Schemas/coinsSchema");
+const bankSchema = require("../../utils/Schemas/bankSchema");
 const errors = require("../../utils/errors");
 
 module.exports.run = (bot, message, args, messageArray) => {
@@ -7,29 +8,51 @@ module.exports.run = (bot, message, args, messageArray) => {
 
     const member = message.mentions.members.first() || message.mentions.users.first() || message.member;
 
+    let balance = 0;
+    let bank = 0;
+
     coinsSchema.findOne({
         guildID: message.guild.id,
         userID: member.user.id
     }, (err, res) => {
         if (err) {
             errors.databaseError(message);
-            console.log(err);
+            return console.log(err);
         }
 
         if (!res || res.coins === 0){
-            const noMessagesEmbed = new Discord.RichEmbed()
-                .setAuthor(message.author.username, message.author.avatarURL)
-                .setColor(bot.settings.embedColor)
-                .setDescription(`${member} has 0 coins`);
-            message.channel.send(noMessagesEmbed);
+            balance = 0;
         }else{
-            const resultsEmbed = new Discord.RichEmbed()
-                .setAuthor(message.author.username, message.author.avatarURL)
-                .setColor(bot.settings.embedColor)
-                .setDescription(`${member} has ${res.coins} coins`);
-            message.channel.send(resultsEmbed);
+            balance = res.coins;
         }
-    })
+
+        bankSchema.findOne({
+            guildID: message.guild.id,
+            userID: member.user.id
+        }, (err, res) => {
+            if (err) {
+                errors.databaseError(message);
+                console.log(err);
+            }
+
+            if (!res || res.coins === 0){
+                bank = 0;
+            }else{
+                bank = res.coins;
+            }
+
+            const balanceEmbed = new Discord.RichEmbed()
+                .setAuthor(message.author.tag, message.author.avatarURL)
+                .setTitle(`${member.user.username}'s balance`)
+                .setColor(bot.settings.embedColor)
+                .setDescription(`💰 **Wallet:** \`${balance}\` \n🏦 **Bank:** \`${bank}\``);
+            message.channel.send(balanceEmbed);
+        });
+    });
+
+
+
+
 };
 
 module.exports.config = {

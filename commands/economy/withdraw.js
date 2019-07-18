@@ -11,23 +11,26 @@ module.exports.run = (bot, message, args, messageArray) => {
     bankSchema.findOne({
         guildID: message.guild.id,
         userID: message.author.id
-    }, (err, res) => {
+    }, (err, bankRes) => {
         if (err){
             console.log(err);
-            errors.databaseError(message);
+            return errors.databaseError(message);
         }
 
-        if (!res || res.coins < toWithdraw){
+        if (!bankRes || bankRes.coins < toWithdraw){
             const noCoinsEmbed = new Discord.RichEmbed()
                 .setAuthor(message.author.tag, message.author.avatarURL)
                 .setColor("FF0000")
                 .setDescription("You don't have anything to withdraw.");
             return message.channel.send(noCoinsEmbed);
         }else{
-            if (!isNaN(args[0])){
+            if (args[0] === "all"){
+                toWithdraw = bankRes.coins;
+            }
+            else if (!isNaN(args[0])){
                 toWithdraw = parseInt(args[0]);
             }else{
-                toWithdraw = res.coins;
+                return errors.wrongCommandUsage(message, this.config.usage);
             }
             if (toWithdraw <= 0) {
                 const noZero = new Discord.RichEmbed()
@@ -37,7 +40,7 @@ module.exports.run = (bot, message, args, messageArray) => {
                 return message.channel.send(noZero);
             }
 
-            if (toWithdraw > res.coins){
+            if (toWithdraw > bankRes.coins){
                 const notEnough = new Discord.RichEmbed()
                     .setAuthor(message.author.tag, message.author.avatarURL)
                     .setColor("FF0000")
@@ -45,8 +48,8 @@ module.exports.run = (bot, message, args, messageArray) => {
                 return message.channel.send(notEnough);
             }
 
-            res.coins = res.coins - toWithdraw;
-            res.save().catch(err => {
+            bankRes.coins = bankRes.coins - toWithdraw;
+            bankRes.save().catch(err => {
                 console.log(err);
                 errors.databaseError(message);
             });
@@ -54,13 +57,13 @@ module.exports.run = (bot, message, args, messageArray) => {
             coinsSchema.findOne({
                 guildID: message.guild.id,
                 userID: message.author.id
-            }, (err, res) => {
+            }, (err, walletRes) => {
                 if (err){
                     console.log(err);
-                    errors.databaseError(message);
+                    return errors.databaseError(message);
                 }
 
-                if (!res){
+                if (!walletRes){
                     const newData = new bankSchema({
                         guildID: message.guild.id,
                         userID: message.author.id,
@@ -71,17 +74,18 @@ module.exports.run = (bot, message, args, messageArray) => {
                         errors.databaseError(message);
                     });
                 }else{
-                    res.coins = res.coins + toWithdraw;
-                    res.save().catch(err => {
+                    walletRes.coins = walletRes.coins + toWithdraw;
+                    walletRes.save().catch(err => {
                         console.log(err);
                         errors.databaseError(message);
                     });
                 }
-                const withdrawedEmbed =  new Discord.RichEmbed()
+                const withdrawdEmbed =  new Discord.RichEmbed()
                     .setAuthor(message.author.tag, message.author.avatarURL)
+                    .setTitle("Withdraw")
                     .setColor(bot.settings.embedColor)
-                    .setDescription(`${toWithdraw} coins has been moved to your wallet.`);
-                message.channel.send(withdrawedEmbed);
+                    .setDescription(`💰 **Wallet:** \`${walletRes.coins}\` \n🏦 **Bank:** \`${bankRes.coins}\` \n💵 **Withdrawn:** \`${toWithdraw}\``);
+                message.channel.send(withdrawdEmbed);
             });
         }
     });

@@ -44,7 +44,7 @@ module.exports.drop = (bot) => {
                 }, (err, res) => {
                     if (err) {
                         errors.databaseError(collectedMsg);
-                        console.log(err);
+                        return console.log(err);
                     }
 
                     if (!res){
@@ -67,5 +67,72 @@ module.exports.drop = (bot) => {
                 })
             }
         });
+    });
+};
+
+module.exports.reactionDrop = (bot) => {
+
+    const guild = bot.guilds.get(bot.settings.guildID);
+    const channel = guild.channels.get(bot.settings.mainChatChannel);
+    const prize = 1000;
+
+    const embed = new Discord.RichEmbed()
+        .setAuthor(bot.user.username, bot.user.avatarURL)
+        .setColor(bot.settings.embedColor)
+        .setTitle("Reaction Drops")
+        .setDescription(`React with ✅ to join.\n **Prize:** \`${prize}\``)
+        .setFooter('60 seconds to join.');
+    channel.send(embed).then(async msg => {
+
+        await msg.react('✅');
+        const filter = (r, u) => r.emoji.name === '✅' && u !== u.bot;
+        msg.awaitReactions(filter, {
+            time: 60000
+        }).then(collected => {
+
+            if (collected.first()) {
+                const joinedUsers = collected.first().users.filter(user => !user.bot);
+                if (joinedUsers.size >= 1){
+                    const winnerUser = joinedUsers.random();
+                    coinsSchema.findOne({
+                        guildID: guild.id,
+                        userID: winnerUser.id
+                    }, (err, res) => {
+                        if (err) {
+                            errors.databaseError(msg);
+                            return console.log(err);
+                        }
+
+                        if (!res){
+                            const newData = coinsSchema({
+                                guildID: guild.id,
+                                userID: winnerUser.id,
+                                coins: prize
+                            });
+                            newData.save().catch(err => {
+                                errors.databaseError(msg);
+                                console.log(err);
+                            });
+                        }else{
+                            res.coins += prize;
+                            res.save().catch(err => {
+                                errors.databaseError(msg);
+                                console.log(err);
+                            });
+                        }
+
+                        msg.channel.send(`${winnerUser} has won the ${prize} coins!`);
+                    })
+                }else{
+                    const noWinnerEmbed = new Discord.RichEmbed()
+                        .setAuthor(bot.user.username, bot.user.avatarURL)
+                        .setColor(bot.settings.embedColor)
+                        .setTitle("Reaction Drops")
+                        .setDescription(`No winner has been selected.`);
+                    channel.send(noWinnerEmbed);
+                }
+
+            }
+        })
     });
 };

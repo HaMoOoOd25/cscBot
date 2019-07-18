@@ -25,7 +25,7 @@ function clearMessageLeaderboard(message, bot) {
     ]).exec(async (err, res) => {
         if (err) {
             errors.databaseError(message);
-            console.log(err);
+            return console.log(err);
         }
 
         if (res){

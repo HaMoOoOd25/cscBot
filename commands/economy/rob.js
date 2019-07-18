@@ -50,7 +50,7 @@ module.exports.run = async (bot, message, args, messageArray) => {
     }, (err, res) => {
         if (err) {
             errors.databaseError(message);
-            console.log(err);
+            return console.log(err);
         }
 
         if (!res || res.coins < 1) {
@@ -80,7 +80,7 @@ module.exports.run = async (bot, message, args, messageArray) => {
         }, (err, res) => {
             if (err) {
                 errors.databaseError(message);
-                console.log(err);
+                return console.log(err);
             }
 
             if (detector === "fail"){

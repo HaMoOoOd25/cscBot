@@ -14,7 +14,7 @@ module.exports.run = async (bot, message, args, messageArray) => {
     ]).exec(async (err, res) => {
         if (err) {
             errors.databaseError(message);
-            console.log(err);
+            return console.log(err);
         }
         let leaderboardEmbed = new Discord.RichEmbed()
             .setTitle("Houses Leaderboard")

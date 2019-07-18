@@ -1,1 +1,4 @@
-- Each member of the winner house will earn 5k (It's still on Beta and not sure if it will work efficiently)
+- Reaction drop every 4 hours.
+- Merged `balance` and `bank` commands. Now it's only `balance`.
+- Changed the look of withdraw and deposit command.
+- Some adjustments on database error handling.

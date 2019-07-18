@@ -50,4 +50,8 @@ module.exports = (bot) => {
     setInterval(function () {
         drops.drop(bot);
     }, 7200000);
+
+    setInterval(function () {
+        drops.reactionDrop(bot)
+    }, 1.44e+7)//1.44e+7
 };
