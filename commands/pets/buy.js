@@ -64,10 +64,7 @@ module.exports.run = (bot, message, args, messageArray) => {
         guildID: message.guild.id,
         userID: message.author.id
     }, (err, coinsRes) => {
-        if (err){
-            console.log(err);
-            errors.databaseError(message);
-        }
+        if (err) return errors.databaseError(message, err);
 
         //IF there is no enough coins or no coins at all
         if (!coinsRes || coinsRes.coins < price){
@@ -82,10 +79,7 @@ module.exports.run = (bot, message, args, messageArray) => {
                 userID: message.author.id,
                 petType: petToBuy.type
             }, (err, res) => {
-                if (err) {
-                    console.log(err);
-                    errors.databaseError(message);
-                }
+                if (err) return errors.databaseError(message, err);
 
                 //If the user already have that pet type
                 if (res) {
@@ -105,16 +99,10 @@ module.exports.run = (bot, message, args, messageArray) => {
                         petXp: 0,
                         selected: false
                     });
-                    newPet.save().catch(err => {
-                        console.log(err);
-                        errors.databaseError(message);
-                    });
+                    newPet.save().catch(err => errors.databaseError(message, err));
 
                     coinsRes.coins -= price;
-                    coinsRes.save().catch(err => {
-                        console.log(err);
-                        errors.databaseError(message);
-                    });
+                    coinsRes.save().catch(err => errors.databaseError(message, err));
 
                     const PurchasedPet = new Discord.RichEmbed()
                         .setAuthor(message.author.tag, message.author.avatarURL)

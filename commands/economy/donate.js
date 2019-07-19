@@ -21,10 +21,7 @@ module.exports.run = (bot, message, args, messageArray) => {
         guildID: message.guild.id,
         userID: message.author.id
     }, (err, res) => {
-        if (err) {
-            errors.databaseError(message);
-            return console.log(err);
-        }
+        if (err) return errors.databaseError(message, err);
 
         if (toDonateAmt <= 0) {
             const noZero = new Discord.RichEmbed()
@@ -44,20 +41,14 @@ module.exports.run = (bot, message, args, messageArray) => {
         }
 
         res.coins = res.coins - toDonateAmt;
-        res.save().catch(err => {
-            errors.databaseError(message);
-            console.log(err);
-        });
+        res.save().catch(err => errors.databaseError(message, err));
 
         //Getting donated person info
         coinsSchema.findOne({
             guildID: message.guild.id,
             userID: toDonate.user.id
         }, (err, res) => {
-            if (err) {
-                errors.databaseError(message);
-                return console.log(err);
-            }
+            if (err) return errors.databaseError(message, err);
 
             if (!res) {
                 const newData = new coinsSchema({
@@ -65,16 +56,10 @@ module.exports.run = (bot, message, args, messageArray) => {
                     userID: toDonate.user.id,
                     coins: toDonateAmt
                 });
-                newData.save().catch(err => {
-                    errors.databaseError(message);
-                    console.log(err);
-                });
+                newData.save().catch(err => errors.databaseError(message, err));
             }else{
                 res.coins = res.coins + toDonateAmt;
-                res.save().catch(err => {
-                    errors.databaseError(message);
-                    console.log(err);
-                });
+                res.save().catch(err => errors.databaseError(message, err));
             }
 
             const donatedEmbed = new Discord.RichEmbed()

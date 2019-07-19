@@ -3,6 +3,7 @@ const coinsSchema = require("../../utils/Schemas/coinsSchema");
 const bankSchema = require("../../utils/Schemas/bankSchema");
 const errors = require("../../utils/errors");
 
+
 module.exports.run = (bot, message, args, messageArray) => {
     if (message.channel.id !== bot.settings.botCommandsChannel) return;
 
@@ -14,31 +15,23 @@ module.exports.run = (bot, message, args, messageArray) => {
     coinsSchema.findOne({
         guildID: message.guild.id,
         userID: member.user.id
-    }, (err, res) => {
-        if (err) {
-            errors.databaseError(message);
-            return console.log(err);
-        }
+    }, (err, walletBalance) => {
+        if (err) return errors.databaseError(message, err);
 
-        if (!res || res.coins === 0){
-            balance = 0;
-        }else{
-            balance = res.coins;
+        if (walletBalance && walletBalance.coins > 0){
+            balance = walletBalance.coins;
         }
 
         bankSchema.findOne({
             guildID: message.guild.id,
             userID: member.user.id
-        }, (err, res) => {
-            if (err) {
-                errors.databaseError(message);
-                console.log(err);
-            }
+        }, (err, bankBalance) => {
+            if (err) return errors.databaseError(message, err);
 
-            if (!res || res.coins === 0){
+            if (!bankBalance || bankBalance.coins === 0){
                 bank = 0;
             }else{
-                bank = res.coins;
+                bank = bankBalance.coins;
             }
 
             const balanceEmbed = new Discord.RichEmbed()
@@ -49,10 +42,6 @@ module.exports.run = (bot, message, args, messageArray) => {
             message.channel.send(balanceEmbed);
         });
     });
-
-
-
-
 };
 
 module.exports.config = {

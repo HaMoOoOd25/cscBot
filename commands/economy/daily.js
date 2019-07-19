@@ -21,6 +21,7 @@ module.exports.run = async (bot, message, args, messageArray) => {
     }
     db.set(`lastDaily_${message.author.id}`, Date.now());
 
+    //Identify the range and the earning
     const min = Math.ceil(100);
     const max = Math.floor(350 + 1);
     const toEarn = Math.floor(Math.random() * (max - min) + min);
@@ -29,28 +30,24 @@ module.exports.run = async (bot, message, args, messageArray) => {
         guildID: message.guild.id,
         userID: message.author.id
     }, (err, res) => {
-        if (err) {
-            errors.databaseError(message);
-            return console.log(err);
-        }
+        if (err) return errors.databaseError(message, err);
         
         if (!res){
+
             const newData = coinsSchema({
                 guildID: message.guild.id,
                 userID: message.author.id,
                 coins: toEarn
             });
-            newData.save().catch(err => {
-                errors.databaseError(message);
-                console.log(err);
-            });
+            newData.save().catch(err => errors.databaseError(message, err));
+
         }else{
+
             res.coins += toEarn;
-            res.save().catch(err => {
-                errors.databaseError(message);
-                console.log(err);
-            });
+            res.save().catch(err => errors.databaseError(message, err));
+
         }
+
         const EarnedEmbed = new Discord.RichEmbed()
             .setAuthor(message.author.username, message.author.avatarURL)
             .setDescription(`${message.author}, you have claimed your daily reward.\nYou have earned **${toEarn}** coins!`)

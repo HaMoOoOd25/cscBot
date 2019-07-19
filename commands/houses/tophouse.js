@@ -12,10 +12,7 @@ module.exports.run = async (bot, message, args, messageArray) => {
     }).sort([
         ['points', 'descending']
     ]).exec(async (err, res) => {
-        if (err) {
-            errors.databaseError(message);
-            return console.log(err);
-        }
+        if (err) return errors.databaseError(message, err);
         let leaderboardEmbed = new Discord.RichEmbed()
             .setTitle("Houses Leaderboard")
             .setColor(bot.settings.embedColor);

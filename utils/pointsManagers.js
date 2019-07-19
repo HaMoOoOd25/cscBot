@@ -21,10 +21,7 @@ module.exports.messagePoints = (bot, message) => {
         guildID: message.guild.id,
         userID: message.author.id
     }, (err, res) => {
-        if (err) {
-            errors.databaseError(message);
-            return console.log(err);
-        }
+        if (err) return errors.databaseError(message, err);
 
         if (!res){
             const newData = new messagesSchema({
@@ -32,10 +29,7 @@ module.exports.messagePoints = (bot, message) => {
                 userID: message.author.id,
                 points: 1
             });
-            newData.save().catch(err => {
-                errors.databaseError(message);
-                console.log(err);
-            });
+            newData.save().catch(err => errors.databaseError(message, err));
         }else{
             res.points += 1;
 
@@ -45,10 +39,7 @@ module.exports.messagePoints = (bot, message) => {
                     guildID: message.guild.id,
                     userID: message.author.id
                 }, (err, res) => {
-                    if (err) {
-                        console.log(err);
-                        return errors.databaseError(message);
-                    }
+                    if (err) return errors.databaseError(message, err);
 
                     if (!res){
                         const newData = new coinsSchema({
@@ -56,16 +47,10 @@ module.exports.messagePoints = (bot, message) => {
                             userID: message.author.id,
                             coins: toEarn
                         });
-                        newData.save().catch(err => {
-                            console.log(err);
-                            errors.databaseError(message);
-                        });
+                        newData.save().catch(err => errors.databaseError(message, err));
                     }else {
                         res.coins += toEarn;
-                        res.save().catch(err => {
-                            console.log(err);
-                            errors.databaseError(message);
-                        });
+                        res.save().catch(err => errors.databaseError(message, err));
                     }
 
                     const embed = new Discord.RichEmbed()
@@ -75,10 +60,7 @@ module.exports.messagePoints = (bot, message) => {
                     message.channel.send(embed);
                 })
             }
-            res.save().catch(err => {
-                errors.databaseError(message);
-                console.log(err);
-            });
+            res.save().catch(err => errors.databaseError(message, err));
         }
         messagesCoolDownSet.add(message.author.id);
 
@@ -91,7 +73,7 @@ module.exports.messagePoints = (bot, message) => {
 module.exports.petPoints = (bot, message) => {
     if (petXpCoolDownSet.has(message.author.id)) return;
 
-    const XpDeterminer = 300;
+    const XpDeterminer = 700;
     const maxLevel = 75;
     const xpMax = maxLevel * 300;
     const minXp = 15;
@@ -103,10 +85,7 @@ module.exports.petPoints = (bot, message) => {
         userID: message.author.id,
         selected: true
     }, (err, res) => {
-        if (err) {
-            console.log(err);
-            return errors.databaseError(message);
-        }
+        if (err) return errors.databaseError(message, err);
 
         if(res){
             const currentLvl = res.petLevel;
@@ -125,10 +104,7 @@ module.exports.petPoints = (bot, message) => {
                 message.channel.send(`${message.author}, ${res.petName}(${res.petType}) has reached level ${res.petLevel}!!`);
             }
 
-            res.save().catch(err => {
-                console.log(err);
-                errors.databaseError(message);
-            });
+            res.save().catch(err => errors.databaseError(message, err));
         }
     });
     petXpCoolDownSet.add(message.author.id);

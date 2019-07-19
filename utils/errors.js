@@ -43,6 +43,7 @@ module.exports.noUserError = (message) => {
     SendMessage(message, "User not found.");
 };
 
-module.exports.databaseError = (message) => {
+module.exports.databaseError = (message, error) => {
     SendMessage(message, "Database error.");
+    console.log(error);
 };

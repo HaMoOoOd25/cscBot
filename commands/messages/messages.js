@@ -10,10 +10,7 @@ module.exports.run = (bot, message, args, messageArray) => {
         guildID: message.guild.id,
         userID: member.user.id
     }, (err, res) => {
-        if (err) {
-            errors.databaseError(message);
-            return console.log(err);
-        }
+        if (err) return errors.databaseError(message, err);
 
         if (!res || res.points === 0){
             const noMessagesEmbed = new Discord.RichEmbed()

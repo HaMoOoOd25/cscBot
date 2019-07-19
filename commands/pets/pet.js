@@ -10,10 +10,7 @@ module.exports.run = (bot, message, args, messageArray) => {
         userID: message.author.id,
         selected: true
     }, (err, res) => {
-        if (err) {
-            console.log(err);
-            errors.databaseError(message);
-        }
+        if (err) return errors.databaseError(message, err)
 
         //If there is no pets
         if (!res) {

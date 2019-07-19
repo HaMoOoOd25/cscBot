@@ -16,10 +16,7 @@ module.exports.run = (bot, message, args, messageArray) => {
         userID: message.author.id,
         selected: true
     }, (err, res) => {
-        if (err) {
-            console.log(err);
-            errors.databaseError(message);
-        }
+        if (err) return errors.databaseError(message, err);
 
         //If no pet was found
         if (!res){
@@ -30,10 +27,7 @@ module.exports.run = (bot, message, args, messageArray) => {
             message.channel.send(noSelectedPet);
         }else{
             res.petName = petName;
-            res.save().catch(err => {
-                console.log(err);
-                errors.databaseError(message);
-            });
+            res.save().catch(err => errors.databaseError(message, err));
 
             const namedEmbed = new Discord.RichEmbed()
                 .setAuthor(message.author.tag, message.author.avatarURL)

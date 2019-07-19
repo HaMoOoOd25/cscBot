@@ -42,10 +42,7 @@ module.exports.drop = (bot) => {
                     guildID: guild.id,
                     userID: collectedMsg.author.id
                 }, (err, res) => {
-                    if (err) {
-                        errors.databaseError(collectedMsg);
-                        return console.log(err);
-                    }
+                    if (err) return errors.databaseError(message, err);
 
                     if (!res){
                         const newData = coinsSchema({
@@ -53,16 +50,10 @@ module.exports.drop = (bot) => {
                             userID: collectedMsg.author.id,
                             coins: prize
                         });
-                        newData.save().catch(err => {
-                            errors.databaseError(collectedMsg);
-                            console.log(err);
-                        });
+                        newData.save().catch(err => errors.databaseError(message, err));
                     }else{
                         res.coins += prize;
-                        res.save().catch(err => {
-                            errors.databaseError(collectedMsg);
-                            console.log(err);
-                        });
+                        res.save().catch(err => errors.databaseError(message, err));
                     }
                 })
             }
@@ -98,10 +89,7 @@ module.exports.reactionDrop = (bot) => {
                         guildID: guild.id,
                         userID: winnerUser.id
                     }, (err, res) => {
-                        if (err) {
-                            errors.databaseError(msg);
-                            return console.log(err);
-                        }
+                        if (err) return errors.databaseError(message, err);
 
                         if (!res){
                             const newData = coinsSchema({
@@ -109,16 +97,10 @@ module.exports.reactionDrop = (bot) => {
                                 userID: winnerUser.id,
                                 coins: prize
                             });
-                            newData.save().catch(err => {
-                                errors.databaseError(msg);
-                                console.log(err);
-                            });
+                            newData.save().catch(err => errors.databaseError(message, err));
                         }else{
                             res.coins += prize;
-                            res.save().catch(err => {
-                                errors.databaseError(msg);
-                                console.log(err);
-                            });
+                            res.save().catch(err => errors.databaseError(message, err));
                         }
 
                         msg.channel.send(`${winnerUser} has won the ${prize} coins!`);
@@ -131,7 +113,6 @@ module.exports.reactionDrop = (bot) => {
                         .setDescription(`No winner has been selected.`);
                     channel.send(noWinnerEmbed);
                 }
-
             }
         })
     });

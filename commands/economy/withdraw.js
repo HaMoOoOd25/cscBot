@@ -12,10 +12,7 @@ module.exports.run = (bot, message, args, messageArray) => {
         guildID: message.guild.id,
         userID: message.author.id
     }, (err, bankRes) => {
-        if (err){
-            console.log(err);
-            return errors.databaseError(message);
-        }
+        if (err) return errors.databaseError(message, err);
 
         if (!bankRes || bankRes.coins < toWithdraw){
             const noCoinsEmbed = new Discord.RichEmbed()
@@ -49,19 +46,13 @@ module.exports.run = (bot, message, args, messageArray) => {
             }
 
             bankRes.coins = bankRes.coins - toWithdraw;
-            bankRes.save().catch(err => {
-                console.log(err);
-                errors.databaseError(message);
-            });
+            bankRes.save().catch(err => errors.databaseError(message, err));
 
             coinsSchema.findOne({
                 guildID: message.guild.id,
                 userID: message.author.id
             }, (err, walletRes) => {
-                if (err){
-                    console.log(err);
-                    return errors.databaseError(message);
-                }
+                if (err) return errors.databaseError(message, err);
 
                 if (!walletRes){
                     const newData = new bankSchema({
@@ -69,16 +60,10 @@ module.exports.run = (bot, message, args, messageArray) => {
                         userID: message.author.id,
                         coins: toWithdraw
                     });
-                    newData.save().catch(err => {
-                        console.log(err);
-                        errors.databaseError(message);
-                    });
+                    newData.save().catch(err => errors.databaseError(message, err));
                 }else{
                     walletRes.coins = walletRes.coins + toWithdraw;
-                    walletRes.save().catch(err => {
-                        console.log(err);
-                        errors.databaseError(message);
-                    });
+                    walletRes.save().catch(err => errors.databaseError(message, err));
                 }
                 const withdrawdEmbed =  new Discord.RichEmbed()
                     .setAuthor(message.author.tag, message.author.avatarURL)

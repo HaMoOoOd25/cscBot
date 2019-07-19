@@ -40,10 +40,7 @@ function clearMessageLeaderboard(message, bot) {
 
             //We clear the list
             messagesSchema.deleteMany({}, (err, res) => {
-                if (err) {
-                    console.log(err);
-                    errors.databaseError(message);
-                }
+                if (err) return errors.databaseError(message, err);
             });
 
             if (winner) {
@@ -82,19 +79,13 @@ function clearHouses(message, bot) {
     }).sort([
         ['points', 'descending']
     ]).exec(async (err, res) => {
-        if (err) {
-            errors.databaseError(message);
-            console.log(err);
-        }
+        if (err) return errors.databaseError(message, err);
 
         winnerHouse = res[0].house || "None";
 
         //We clear the list.
         housepointsSchema.deleteMany({}, (err, res) => {
-            if (err) {
-                console.log(err);
-                errors.databaseError(message);
-            }
+            if (err) return errors.databaseError(message, err);
         });
 
         //If there is no winner
@@ -121,10 +112,7 @@ function clearHouses(message, bot) {
                         guildID: message.guild.id,
                         userID: member.user.id
                     }, (err, res) => {
-                        if (err) {
-                            console.log(err);
-                            errors.databaseError(message);
-                        }
+                        if (err) errors.databaseError(message, err)
 
                         if(!res){
                             const newData = coinsSchema({

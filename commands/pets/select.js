@@ -21,20 +21,14 @@ module.exports.run = (bot, message, args, messageArray) => {
         userID: message.author.id,
         petType: petToFind
     }, (err, resWithType) => {
-        if (err){
-            console.log(err);
-            errors.databaseError(message);
-        }
+        if (err) return errors.databaseError(message, err);
         //Get the selected Pet
         petSchema.findOne({
             guildID: message.guild.id,
             userID: message.author.id,
             selected: true
         }, (err, res) => {
-            if (err){
-                console.log(err);
-                errors.databaseError(message);
-            }
+            if (err) return errors.databaseError(message, err);
 
             //If result not found with type try again with name </3
             if (!resWithType){
@@ -43,10 +37,7 @@ module.exports.run = (bot, message, args, messageArray) => {
                     userID: message.author.id,
                     petName: petToFind
                 }, (err, resWithName) => {
-                    if (err){
-                        console.log(err);
-                        errors.databaseError(message);
-                    }
+                    if (err) return errors.databaseError(message, err);
 
                     //If no result found </3
                     if (!resWithName) {
@@ -63,26 +54,17 @@ module.exports.run = (bot, message, args, messageArray) => {
                         });
                         if(res){
                             res.selected = false;
-                            res.save().catch(err => {
-                                console.log(err);
-                                errors.databaseError(message);
-                            });
+                            res.save().catch(err => errors.databaseError(message, err));
                         }
                         message.channel.send(selectedEmbed);
                     }
                 });
             }else{
                 resWithType.selected = true;
-                resWithType.save().catch(err => {
-                    console.log(err);
-                    errors.databaseError(message);
-                });
+                resWithType.save().catch(err => errors.databaseError(message, err));
                 if(res){
                     res.selected = false;
-                    res.save().catch(err => {
-                        console.log(err);
-                        errors.databaseError(message);
-                    });
+                    res.save().catch(err => errors.databaseError(message, err));
                 }
                 message.channel.send(selectedEmbed);
             }

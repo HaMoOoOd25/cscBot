@@ -13,27 +13,28 @@ module.exports.run = (bot, message, args, messageArray) => {
         guildID: message.guild.id,
         userID: message.author.id
     }, (err, walletRes) => {
-        if (err){
-            console.log(err);
-            return errors.databaseError(message);
-        }
+        if (err) return errors.databaseError(message, err);
 
-        if (!walletRes || walletRes.coins < 1){
+        if (!walletRes || walletRes.coins < 1) {
+
             const noCoinsEmbed = new Discord.RichEmbed()
                 .setAuthor(message.author.tag, message.author.avatarURL)
                 .setColor("FF0000")
                 .setDescription("You don't have anything to deposit.");
             message.channel.send(noCoinsEmbed);
-        }else{
+
+        }
+        else {
+
             if (args[0] === "all"){
                 toDeposit = walletRes.coins;
             }
             else if (!isNaN(args[0])){
                 toDeposit = parseInt(args[0]);
-            }else{
+            }
+            else{
                 return errors.wrongCommandUsage(message, this.config.usage)
             }
-
 
             if (toDeposit <= 0) {
                 const noZero = new Discord.RichEmbed()
@@ -53,19 +54,14 @@ module.exports.run = (bot, message, args, messageArray) => {
 
             walletRes.coins = walletRes.coins - toDeposit;
 
-            walletRes.save().catch(err => {
-                console.log(err);
-                errors.databaseError(message);
-            });
+            walletRes.save().catch(err => errors.databaseError(message, err));
 
             bankSchema.findOne({
                 guildID: message.guild.id,
                 userID: message.author.id
             }, (err, bankRes) => {
-                if (err){
-                    console.log(err);
-                    return errors.databaseError(message);
-                }
+                if (err) return errors.databaseError(message, err);
+
                 if (!bankRes){
                     const newData = new bankSchema({
                         guildID: message.guild.id,
@@ -78,10 +74,7 @@ module.exports.run = (bot, message, args, messageArray) => {
                     });
                 }else{
                     bankRes.coins = bankRes.coins + toDeposit;
-                    bankRes.save().catch(err => {
-                        console.log(err);
-                        errors.databaseError(message);
-                    });
+                    bankRes.save().catch(err => errors.databaseError(message, err));
                 }
                 const depositedEmbed =  new Discord.RichEmbed()
                     .setAuthor(message.author.tag, message.author.avatarURL)

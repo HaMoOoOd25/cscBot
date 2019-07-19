@@ -42,10 +42,7 @@ module.exports.run = async (bot, message, args, messageArray) => {
         guildID: message.guild.id,
         userID: message.author.id
     }, (err, res) => {
-        if (err) {
-            console.log(err);
-            return errors.databaseError(message);
-        }
+        if (err) return errors.databaseError(message, err);
 
         if (!res) {
             const newData = new coinsSchema({
@@ -53,16 +50,10 @@ module.exports.run = async (bot, message, args, messageArray) => {
                 userID: message.author.id,
                 coins: toEarn
             });
-            newData.save().catch(err => {
-                console.log(err);
-                errors.databaseError(message);
-            });
+            newData.save().catch(err => errors.databaseError(message, err));
         }else{
             res.coins += toEarn;
-            res.save().catch(err => {
-                console.log(err);
-                errors.databaseError(message);
-            });
+            res.save().catch(err => errors.databaseError(message, err));
         }
         message.channel.send(jobEmbed);
     });

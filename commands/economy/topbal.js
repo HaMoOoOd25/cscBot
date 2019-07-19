@@ -9,10 +9,7 @@ module.exports.run = (bot, message, args, messageArray) => {
     }).sort([
         ['coins', 'descending']
     ]).exec((err, res) => {
-        if (err) {
-            errors.databaseError(message);
-            return console.log(err);
-        }
+        if (err) return errors.databaseError(message, err);
         let leaderboardEmbed = new Discord.RichEmbed()
             .setTitle("Coins Leaderboard");
 
