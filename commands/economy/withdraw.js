@@ -7,6 +7,8 @@ module.exports.run = (bot, message, args, messageArray) => {
     if (message.channel.id !== bot.settings.botCommandsChannel) return;
 
     let toWithdraw = 0;
+    let balance = 0;
+    let bank = 0;
 
     bankSchema.findOne({
         guildID: message.guild.id,
@@ -61,15 +63,18 @@ module.exports.run = (bot, message, args, messageArray) => {
                         coins: toWithdraw
                     });
                     newData.save().catch(err => errors.databaseError(message, err));
+                    balance = toWithdraw;
                 }else{
                     walletRes.coins = walletRes.coins + toWithdraw;
                     walletRes.save().catch(err => errors.databaseError(message, err));
+                    balance = walletRes.coins;
                 }
+                bank = bankRes.coins;
                 const withdrawdEmbed =  new Discord.RichEmbed()
                     .setAuthor(message.author.tag, message.author.avatarURL)
                     .setTitle("Withdraw")
                     .setColor(bot.settings.embedColor)
-                    .setDescription(`💰 **Wallet:** \`${walletRes.coins}\` \n🏦 **Bank:** \`${bankRes.coins}\` \n💵 **Withdrawn:** \`${toWithdraw}\``);
+                    .setDescription(`💰 **Wallet:** \`${balance}\` \n🏦 **Bank:** \`${bank}\` \n💵 **Withdrawn:** \`${toWithdraw}\``);
                 message.channel.send(withdrawdEmbed);
             });
         }

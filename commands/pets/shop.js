@@ -26,6 +26,10 @@ module.exports.run = (bot, message, args, messageArray) => {
     let pages = [shop, shop2, shop3];
     let page = args[0] || 1;
 
+    if (page > pages.length || page <= 0){
+        page = 1;
+    }
+
     //Adding lists to the pages
     shop.push(`**__Common Pets__**\n\n`);
     shop.push(commonPets.join(" "));

@@ -9,6 +9,9 @@ module.exports.run = (bot, message, args, messageArray) => {
     //deposit amount
     let toDeposit = 0;
 
+    let balance = 0;
+    let bank = 0;
+
     coinsSchema.findOne({
         guildID: message.guild.id,
         userID: message.author.id
@@ -63,6 +66,7 @@ module.exports.run = (bot, message, args, messageArray) => {
                 if (err) return errors.databaseError(message, err);
 
                 if (!bankRes){
+                    console.log("1");
                     const newData = new bankSchema({
                         guildID: message.guild.id,
                         userID: message.author.id,
@@ -72,15 +76,18 @@ module.exports.run = (bot, message, args, messageArray) => {
                         console.log(err);
                         errors.databaseError(message);
                     });
+                    bank = toDeposit;
                 }else{
                     bankRes.coins = bankRes.coins + toDeposit;
                     bankRes.save().catch(err => errors.databaseError(message, err));
+                    bank = bankRes.coins;
                 }
+                balance = walletRes.coins;
                 const depositedEmbed =  new Discord.RichEmbed()
                     .setAuthor(message.author.tag, message.author.avatarURL)
                     .setTitle("Deposit")
                     .setColor(bot.settings.embedColor)
-                    .setDescription(`💰 **Wallet:** \`${walletRes.coins}\` \n🏦 **Bank:** \`${bankRes.coins}\` \n💳 **Deposited:** \`${toDeposit}\``);
+                    .setDescription(`💰 **Wallet:** \`${balance}\` \n🏦 **Bank:** \`${bank}\` \n💳 **Deposited:** \`${toDeposit}\``);
                 message.channel.send(depositedEmbed);
             });
         }
