@@ -6,5 +6,7 @@
   "botCommandsChannel": "586894247572013076",
   "modMailChannel": "586894247572013076",
   "guildID": "403564806071648258",
-  "welcomeChannel": "586023566806351881"
+  "welcomeChannel": "586023566806351881",
+  "partnershipChannel" : "603272608997310464",
+  "pmChatChannel" : "603272577472921621"
 }

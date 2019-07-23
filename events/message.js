@@ -1,5 +1,6 @@
 const errors = require("../utils/errors");
 const modMail = require("../utils/modMail");
+const coinsPrizing = require("../utils/coinsPrize");
 
 const pointsManager = require("../utils/pointsManagers");
 
@@ -27,6 +28,11 @@ module.exports = (bot, message) => {
             if (!message.member.hasPermission(commandfile.config.permission)) return errors.noPermissionError(message);
             commandfile.run(bot, message, args, messageArray);
         }
+    }
+
+    //Partnership earning
+    if (message.channel.id === bot.settings.partnershipChannel){
+        coinsPrizing.parntership(bot, message);
     }
 
     //All points system goes here
